@@ -9,7 +9,7 @@ import com.boro.apps.joinatool.checkimpl.{CheckEqualOnVal, CheckHolder, CheckTyp
  */
 object CheckServiceFactory {
 
-  def getCheckService(codes: Codes): CheckHolder = {
+  def getCheckImpl(codes: Codes): CheckHolder = {
     codes match {
             case Codes.TYPES_EVAL => new CheckTypesEval
             case Codes.EQUAL_ON_VAL => new CheckEqualOnVal

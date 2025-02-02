@@ -1,5 +1,6 @@
 package com.boro.apps.joinatool.checkservice
 
+import com.boro.apps.joinatool.checkimpl.CheckHolder
 import org.apache.spark.sql.{Column, DataFrame, SparkSession}
 import org.apache.spark.sql.functions.expr
 import com.boro.apps.joinatool.domain._
@@ -18,10 +19,10 @@ class CheckService(spark: SparkSession, dfService: DfService) {
    * @return spark.sql.DataFrame with check results columns
    */
   def getCheckDetails(code: Codes): Map[String, Check] = {
-    val checkService = CheckServiceFactory.getCheckService(code)
+    val checkImpl: CheckHolder = CheckServiceFactory.getCheckImpl(code)
 
-    val mapResult: Map[_, _] = checkService.getCalculationMap(spark, dfService)
-    val res: Boolean = checkService.getCheckBool(mapResult)
+    val mapResult: Map[_, _] = checkImpl.getCalculationMap(spark, dfService)
+    val res: Boolean = checkImpl.getCheckBool(mapResult)
 
     Map(code.name() -> Check(code, mapResult, CheckStatus.NEW, new Result(res, new Timestamp(System.currentTimeMillis()))
     ))
@@ -34,9 +35,9 @@ class CheckService(spark: SparkSession, dfService: DfService) {
    * @return spark.sql.DataFrame with check results columns
    */
   def getCheckDF(code: Codes): DataFrame = {
-    val checkService = CheckServiceFactory.getCheckService(code)
+    val checkImpl: CheckHolder = CheckServiceFactory.getCheckImpl(code)
 
-    checkService.getCalculationDf(spark, dfService)
+    checkImpl.getCalculationDf(spark, dfService)
   }
 
 
