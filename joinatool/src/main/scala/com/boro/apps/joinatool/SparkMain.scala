@@ -56,14 +56,13 @@ object SparkMain {
     checkService.getCheckDF(Codes.TYPES_EVAL).show(false)
     checkService.getCheckDF(Codes.EQUAL_ON_VAL).show(false)
 
+    checkService.changeSourceDF(new DfService(DfAggregation(sqLeft, sqLeftTestEq, Seq("NUM"))))
 
-    val checkService2 = new CheckService(spark, new DfService(DfAggregation(sqLeft, sqLeftTestEq, Seq("NUM"))))
+    println(checkService.getCheckDetails(Codes.TYPES_EVAL))
+    println(checkService.getCheckDetails(Codes.EQUAL_ON_VAL))
 
-    println(checkService2.getCheckDetails(Codes.TYPES_EVAL))
-    println(checkService2.getCheckDetails(Codes.EQUAL_ON_VAL))
-
-    checkService2.getCheckDF(Codes.TYPES_EVAL).show(false)
-    checkService2.getCheckDF(Codes.EQUAL_ON_VAL).show(false)
+    checkService.getCheckDF(Codes.TYPES_EVAL).show(false)
+    checkService.getCheckDF(Codes.EQUAL_ON_VAL).show(false)
 
 
   }

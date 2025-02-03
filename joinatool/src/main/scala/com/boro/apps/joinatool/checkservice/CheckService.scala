@@ -10,7 +10,11 @@ import com.boro.apps.joinatool.factory.CheckServiceFactory
 
 import java.sql.Timestamp
 
-class CheckService(spark: SparkSession, dfService: DfService) {
+class CheckService(spark: SparkSession, var dfService: DfService) {
+
+  def changeSourceDF(dfService: DfService): Unit = {
+    this.dfService = dfService
+  }
 
   /**
    * Creates map with check results where k is check code name and value is Check object with check results
@@ -24,7 +28,7 @@ class CheckService(spark: SparkSession, dfService: DfService) {
     val mapResult: Map[_, _] = checkImpl.getCalculationMap(spark, dfService)
     val res: Boolean = checkImpl.getCheckBool(mapResult)
 
-    Map(code.name() -> Check(code, mapResult, CheckStatus.NEW, new Result(res, new Timestamp(System.currentTimeMillis()))
+    Map(code.name() -> Check(code, mapResult, CheckStatus.NEW, Result(res, new Timestamp(System.currentTimeMillis()))
     ))
   }
 
@@ -53,7 +57,7 @@ class CheckService(spark: SparkSession, dfService: DfService) {
   private def checkCountRows(dfLeft: DataFrame, dfRight: DataFrame, dfPostJn: DataFrame): ResultSet = {
 
     val ch: Boolean = (dfLeft.count == dfRight.count) && (dfLeft.count == dfPostJn.count)
-    new ResultSet(new Calculation(Map("dfLeft" -> dfLeft.count, "dfRight" -> dfRight.count)), new Result(ch, new Timestamp(System.currentTimeMillis())))
+    ResultSet(Calculation(Map("dfLeft" -> dfLeft.count, "dfRight" -> dfRight.count)), Result(ch, new Timestamp(System.currentTimeMillis())))
   }
 
 }
