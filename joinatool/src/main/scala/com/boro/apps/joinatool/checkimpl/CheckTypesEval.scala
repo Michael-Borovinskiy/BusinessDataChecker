@@ -4,7 +4,7 @@ import com.boro.apps.joinatool.dfservice.DfService
 import com.boro.apps.sqlops.AnalysisChecks._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-trait CheckTypesEval extends CheckHolder {
+class CheckTypesEval extends CheckHolder {
 
   override def getCalculationMap(spark: SparkSession, dfService: DfService): Map[String, (String, String)] = {
     checkEqualColumnTypes(spark, dfService.joinResult).mapResult.asInstanceOf[Map[String, (String, String)]]
@@ -17,6 +17,5 @@ trait CheckTypesEval extends CheckHolder {
   override def getCheckBool(map: Map[_, _]): Boolean = {
     !map.asInstanceOf[Map[String, (String, String)]].exists(kv => kv._2._1 != kv._2._2)
   }
-
 
 }

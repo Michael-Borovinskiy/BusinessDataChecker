@@ -4,7 +4,7 @@ import com.boro.apps.joinatool.dfservice.DfService
 import com.boro.apps.sqlops.AnalysisChecks._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-trait CheckEqualOnVal extends CheckHolder {
+class CheckEqualOnVal extends CheckHolder {
 
   override def getCalculationMap(spark: SparkSession, dfService: DfService): Map[String, (Long, Long)] = {
     checkEqualColumns(dfService.joinResult).mapResult.asInstanceOf[Map[String, (Long, Long)]]
