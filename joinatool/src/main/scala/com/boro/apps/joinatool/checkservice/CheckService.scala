@@ -10,11 +10,8 @@ import com.boro.apps.joinatool.factory.CheckServiceFactory
 
 import java.sql.Timestamp
 
-class CheckService(spark: SparkSession, var dfService: DfService) {
+class CheckService(spark: SparkSession, dfService: DfService) {
 
-  def changeSourceDF(dfService: DfService): Unit = {
-    this.dfService = dfService
-  }
 
   /**
    * Creates map with check results where k is check code name and value is Check object with check results
