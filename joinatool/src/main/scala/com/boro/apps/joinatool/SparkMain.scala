@@ -45,7 +45,7 @@ object SparkMain {
 
       val sqLeftTestEq = spark.sql(
         """
-          |SELECT 1 NUM, 'ANDREW' NAME, 33 PRCNT, 900000 SALARY, 'ENGLAND' COUNTRY UNION ALL
+          |SELECT 1 NUM, NULL NAME, 33 PRCNT, 900000 SALARY, 'ENGLAND' COUNTRY UNION ALL
           |SELECT 2 NUM, 'MARY' NAME, 76 PRCNT, 350000 SALARY, 'USA' COUNTRY  UNION ALL
           |SELECT 3 NUM, 'ARNOLD' NAME, 23 PRCNT, 400000 SALARY, 'USA' COUNTRY  UNION ALL
           |SELECT 4 NUM, 'HELEN' NAME, 87 PRCNT, 500000 SALARY, 'USA' COUNTRY  UNION ALL
@@ -65,23 +65,25 @@ object SparkMain {
   def main(args: Array[String]): Unit = {
 
 
-    val checkService = new CheckService(spark, new DfService(DfAggregation(spark.table("table1")
+    val checkService = new CheckService(spark, new DfService(DfAggregation("table1",spark.table("table1")
       , spark.table("table2"), Seq("NUM"))))
 
     println(checkService.getCheckDetails(Codes.TYPES_EVAL))
     println(checkService.getCheckDetails(Codes.EQUAL_ON_VAL))
 
-    checkService.getCheckDF(Codes.TYPES_EVAL).show(false)
-    checkService.getCheckDF(Codes.EQUAL_ON_VAL).show(false)
+    println(checkService.getCheckDF(Codes.TYPES_EVAL).tableName)
+    checkService.getCheckDF(Codes.TYPES_EVAL).dfWithStatistics.show(false)
+    checkService.getCheckDF(Codes.EQUAL_ON_VAL).dfWithStatistics.show(false)
 
-    val checkService2 = new CheckService(spark, new DfService(DfAggregation(spark.table("table1")
+    val checkService2 = new CheckService(spark, new DfService(DfAggregation("table1", spark.table("table1")
       , spark.table("table3"), Seq("NUM"))))
 
     println(checkService2.getCheckDetails(Codes.TYPES_EVAL))
     println(checkService2.getCheckDetails(Codes.EQUAL_ON_VAL))
 
-    checkService2.getCheckDF(Codes.TYPES_EVAL).show(false)
-    checkService2.getCheckDF(Codes.EQUAL_ON_VAL).show(false)
+    println(checkService2.getCheckDF(Codes.TYPES_EVAL).tableName)
+    checkService2.getCheckDF(Codes.TYPES_EVAL).dfWithStatistics.show(false)
+    checkService2.getCheckDF(Codes.EQUAL_ON_VAL).dfWithStatistics.show(false)
 
 
   }

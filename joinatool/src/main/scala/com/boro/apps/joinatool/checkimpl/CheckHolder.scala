@@ -1,12 +1,13 @@
 package com.boro.apps.joinatool.checkimpl
 
 import com.boro.apps.joinatool.dfservice.DfService
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import com.boro.apps.joinatool.domain.{CheckStatistics, TableStatistics}
+import org.apache.spark.sql.SparkSession
 
 trait CheckHolder  {
 
-  def getCalculationMap(spark: SparkSession, dfService: DfService): Map[_,_]
-  def getCalculationDf(spark: SparkSession, dfService: DfService): DataFrame
+  def getCalculationMap(spark: SparkSession, dfService: DfService): CheckStatistics
+  def getCalculationDf(spark: SparkSession, dfService: DfService): TableStatistics
   def getCheckBool(map: Map[_,_]): Boolean
 
 }
