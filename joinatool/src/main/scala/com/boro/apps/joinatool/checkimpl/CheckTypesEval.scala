@@ -1,17 +1,20 @@
 package com.boro.apps.joinatool.checkimpl
 
 import com.boro.apps.joinatool.dfservice.DfService
+import com.boro.apps.joinatool.domain.{CheckStatistics, TableStatistics}
 import com.boro.apps.sqlops.AnalysisChecks._
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.SparkSession
 
 class CheckTypesEval extends CheckHolder {
 
-  override def getCalculationMap(spark: SparkSession, dfService: DfService): Map[String, (String, String)] = {
-    checkEqualColumnTypes(spark, dfService.joinResult).mapResult.asInstanceOf[Map[String, (String, String)]]
+  override def getCalculationMap(spark: SparkSession, dfService: DfService): CheckStatistics = {
+    val joinResult =  dfService.joinResult
+    CheckStatistics(joinResult.tableName, checkEqualColumnTypes(spark, joinResult.dfResult).mapResult.asInstanceOf[Map[String, (String, String)]])
   }
 
-  override def getCalculationDf(spark: SparkSession, dfService: DfService): DataFrame = {
-    checkEqualColumnTypes(spark, dfService.joinResult).df
+  override def getCalculationDf(spark: SparkSession, dfService: DfService): TableStatistics = {
+    val joinResult =  dfService.joinResult
+    TableStatistics(joinResult.tableName, checkEqualColumnTypes(spark, joinResult.dfResult).df)
   }
 
   override def getCheckBool(map: Map[_, _]): Boolean = {
