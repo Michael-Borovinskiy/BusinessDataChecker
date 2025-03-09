@@ -32,7 +32,7 @@ object SparkMain {
 
       val sqRight = spark.sql(
         """
-          |SELECT 1 NUM, 'ANDREW' NAME, 100 PRCNT, 900000 SALARY, 'ENGLAND' COUNTRY, 124000 LIMIT UNION ALL
+          |SELECT 1 NUM, NULL NAME, 100 PRCNT, 900000 SALARY, 'ENGLAND' COUNTRY, 124000 LIMIT UNION ALL
           |SELECT 2 NUM, 'MARY' NAME, 76 PRCNT, 350000 SALARY, 'USA' COUNTRY, 33000 LIMIT  UNION ALL
           |SELECT 3 NUM, 'ARNOLD' NAME, 23 PRCNT, 40000 SALARY, 'USA' COUNTRY, 9000 LIMIT  UNION ALL
           |SELECT 4 NUM, 'HELEN' NAME, 33 PRCNT, 500000 SALARY, 'USA' COUNTRY, 12000 LIMIT  UNION ALL
@@ -45,11 +45,12 @@ object SparkMain {
 
       val sqLeftTestEq = spark.sql(
         """
-          |SELECT 1 NUM, NULL NAME, 33 PRCNT, 900000 SALARY, 'ENGLAND' COUNTRY UNION ALL
+          |SELECT 1 NUM, 'ANDREW' NAME, 33 PRCNT, 900000 SALARY, 'ENGLAND' COUNTRY UNION ALL
           |SELECT 2 NUM, 'MARY' NAME, 76 PRCNT, 350000 SALARY, 'USA' COUNTRY  UNION ALL
           |SELECT 3 NUM, 'ARNOLD' NAME, 23 PRCNT, 400000 SALARY, 'USA' COUNTRY  UNION ALL
           |SELECT 4 NUM, 'HELEN' NAME, 87 PRCNT, 500000 SALARY, 'USA' COUNTRY  UNION ALL
           |SELECT 5 NUM, 'WANE' NAME, 15 PRCNT, 600000 SALARY, 'ITALY' COUNTRY  UNION ALL
+          |SELECT 6 NUM, 'EDWARD' NAME, 33 PRCNT, 900000 SALARY, 'FRANCE' COUNTRY UNION ALL
           |SELECT 6 NUM, 'EDWARD' NAME, 33 PRCNT, 900000 SALARY, 'FRANCE' COUNTRY
           |""".stripMargin)
 
@@ -70,20 +71,25 @@ object SparkMain {
 
     println(checkService.getCheckDetails(Codes.TYPES_EVAL))
     println(checkService.getCheckDetails(Codes.EQUAL_ON_VAL))
+    println(checkService.getCheckDetails(Codes.COUNT_ROWS))
 
     println(checkService.getCheckDF(Codes.TYPES_EVAL).tableName)
     checkService.getCheckDF(Codes.TYPES_EVAL).dfWithStatistics.show(false)
     checkService.getCheckDF(Codes.EQUAL_ON_VAL).dfWithStatistics.show(false)
+    checkService.getCheckDF(Codes.COUNT_ROWS).dfWithStatistics.show(false)
+
 
     val checkService2 = new CheckService(spark, new DfService(DfAggregation("table1", spark.table("table1")
       , spark.table("table3"), Seq("NUM"))))
 
     println(checkService2.getCheckDetails(Codes.TYPES_EVAL))
     println(checkService2.getCheckDetails(Codes.EQUAL_ON_VAL))
+    println(checkService2.getCheckDetails(Codes.COUNT_ROWS))
 
     println(checkService2.getCheckDF(Codes.TYPES_EVAL).tableName)
     checkService2.getCheckDF(Codes.TYPES_EVAL).dfWithStatistics.show(false)
     checkService2.getCheckDF(Codes.EQUAL_ON_VAL).dfWithStatistics.show(false)
+    checkService2.getCheckDF(Codes.COUNT_ROWS).dfWithStatistics.show(false)
 
 
   }

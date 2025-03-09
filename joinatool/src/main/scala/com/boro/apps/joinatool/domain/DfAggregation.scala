@@ -6,6 +6,7 @@ import com.boro.apps.joinatool.{CheckStatus, Codes}
 
 case class DfAggregation(tableName: String, dfLeft: DataFrame, dfRight: DataFrame, seqColumns: Seq[String]){}
 case class TableResult(tableName: String, dfResult: DataFrame){}
+case class TableResultWithPrepDF(tableName: String, dfLeft: DataFrame, dfRight: DataFrame, dfResult: DataFrame){}
 case class CheckStatistics(tableName: String, mapCheckStatistics: Map[_,_]){}
 case class TableStatistics(tableName: String, dfWithStatistics: DataFrame){}
 
