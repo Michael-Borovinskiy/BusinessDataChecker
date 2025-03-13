@@ -1,7 +1,7 @@
 package com.boro.apps.joinatool.factory
 
 import com.boro.apps.joinatool.Codes
-import com.boro.apps.joinatool.checkimpl.{CheckEqualOnVal, CheckHolder, CheckTypesEval}
+import com.boro.apps.joinatool.checkimpl.{CheckCountRows, CheckEqualOnVal, CheckHolder, CheckTypesEval}
 
 /**
  * @author Michael-Borovinskiy
@@ -13,7 +13,8 @@ object CheckServiceFactory {
     codes match {
             case Codes.TYPES_EVAL => new CheckTypesEval
             case Codes.EQUAL_ON_VAL => new CheckEqualOnVal
-            case _ => throw new UnsupportedOperationException("Check codeName hasn't any implemetation")
+            case Codes.COUNT_ROWS => new CheckCountRows
+            case _ => throw new UnsupportedOperationException("Check codeName doesn't have any implemetation")
     }
 
   }
