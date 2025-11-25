@@ -15,17 +15,17 @@
 
     <repositories>
         <repository>
-            <id>m.boro-releases</id>
-            <url>https://github.com/Michael-Borovinskiy/Nageltrekker.git</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
     <dependencies>
-    <dependency>
-        <groupId>com.boro.apps</groupId>
-        <artifactId>Nageltrekker</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
+        <dependency>
+            <groupId>com.github.Michael-Borovinskiy</groupId>
+            <artifactId>Nageltrekker</artifactId>
+            <version>0.1.3</version>
+        </dependency>
     </dependencies>
 
     <build>
